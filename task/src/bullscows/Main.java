@@ -3,23 +3,29 @@ package bullscows;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    static String secretCode = "9305";
+    static String userCode = userInput();
+    static int countBulls = 0;
+    static int countCows = 0;
 
-        String secretCode = "9305";
-        String guessCode = guessInput();
-        int countBull = 0;
-        int countCow = 0;
-        int index = 0;
+    public static void main(String[] args) {
+        checkCode(secretCode,userCode);
+        printAnswer(countBulls,countCows,secretCode);
+    }
+
+    protected static void checkCode (String secretCode, String userCode) {
         for (int i = 0; i < secretCode.length(); i++){
             char charSecret = secretCode.charAt(i);
-            char charGuess = guessCode.charAt(i);
+            char charGuess = userCode.charAt(i);
             if (charSecret == charGuess){
-                countBull++;
+                addBulls();
             } else if (secretCode.indexOf(charGuess) > 0) {
-                countCow++;
+                addCows();
             }
         }
+    }
 
+    protected static void printAnswer(int countBull, int countCow, String secretCode) {
         if (countCow > 0 && countBull == 0){
             System.out.printf("Grade: %d cow(s). The secret code is %s." ,countCow, secretCode);
         } else if (countCow == 0 && countBull > 0) {
@@ -30,18 +36,21 @@ public class Main {
             System.out.printf("Grade: None. The secret code is %s", secretCode);
         }
     }
-
-    protected static String guessInput(){
-        Scanner scanner = new Scanner(
-                System.in);
-        String guessInput = "";
-        while (!isValidInput(guessInput)) {
-            guessInput = scanner.nextLine();
+    protected static String userInput(){
+        Scanner scanner = new Scanner(System.in);
+        String userInput = "";
+        while (!isValidInput(userInput)) {
+            userInput = scanner.nextLine();
         }
-        return guessInput;
+        return userInput;
     }
     protected static boolean isValidInput(String input){
         return input.matches("\\d\\d\\d\\d");
     }
-
+    static void addBulls() {
+        countBulls++;
+    }
+    static void addCows() {
+        countCows++;
+    }
 }
