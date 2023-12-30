@@ -26,7 +26,6 @@ public class Main {
         System.out.println("Congratulations! You guessed the secret code.");
     }
 
-
     protected static String generateSecret (){
         System.out.println("Please, enter the secret code's length:");
         Scanner scanner = new Scanner(System.in);
@@ -41,12 +40,32 @@ public class Main {
         int max = (int) Math.pow(10, secretDigits) -1;
         int generated;
         do {
-            long pseudoRandomNumber = System.nanoTime();
-            Random random = new Random(pseudoRandomNumber);
+            int randomNumber = (int) (Math.random() * 9) + 1;
+            Random random = new Random(randomNumber);
             generated = random.nextInt(max - min + 1) + min;
         } while (!areDigitsUnique(generated));
         return String.valueOf(generated);
     }
+//    protected static String generateSecret (){
+//        System.out.println("Please, enter the secret code's length:");
+//        Scanner scanner = new Scanner(System.in);
+//
+//        while (secretDigits <=0 || secretDigits > 10) {
+//            secretDigits = scanner.nextInt();
+//            if (secretDigits > 10) {
+//                System.out.printf("Error: can't generate a secret number with a length of %d because there aren't enough unique digits.%n", secretDigits);
+//            }
+//        }
+//        int min = (int) Math.pow(10, secretDigits -1); // 10ee digit -1
+//        int max = (int) Math.pow(10, secretDigits) -1;
+//        int generated;
+//        do {
+//            long pseudoRandomNumber = System.nanoTime();
+//            Random random = new Random(pseudoRandomNumber);
+//            generated = random.nextInt(max - min + 1) + min;
+//        } while (!areDigitsUnique(generated));
+//        return String.valueOf(generated);
+//    }
 
     public static boolean areDigitsUnique(int number) {
         boolean[] digits = new boolean[10];
