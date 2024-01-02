@@ -52,43 +52,20 @@ public class Main {
         char star = '*';
         sb.append(String.valueOf(star).repeat(secretLength));
 
-        int digitsLength;
-        int alphasLength;
-        String combined;
         if (symbolRange > 10) {
-            alphasLength = random.nextInt(symbolRange - 10) + 1;
-            digitsLength = secretLength - alphasLength;
-            int correctedSymbolRange = symbolRange - 10;
-            combined = digitGenerator(digitsLength) + alphaGenerator(alphasLength, correctedSymbolRange);
             sb.append(" (0-9, a-");
             char rangeEnd = (char) ((char) symbolRange + 86);
             sb.append(rangeEnd);
         } else {
-            combined = digitGenerator(secretLength);
             sb.append(" (0-9");
         }
         sb.append(").");
-        return shuffleStrings(combined);
+        System.out.println(sb);
+        return symbolGenerator(secretLength, symbolRange);
     }
 
-    public static String shuffleStrings(String combined) {
-        char[] charsBefore = combined.toCharArray();
-        char[] charsAfter = new char[combined.length()];
-        boolean[] isWritten = new boolean[combined.length()];
-        SecureRandom random = new SecureRandom();
-        for (int i = 0; i < combined.length(); i++) {
-            int randomIndex;
-            do {
-                randomIndex = random.nextInt(charsBefore.length);
-            } while (isWritten[randomIndex]);
-            charsAfter[randomIndex] = charsBefore[i];
-            isWritten[randomIndex] = true;
-        }
-        return String.valueOf(charsAfter);
-    }
-
-    public static String alphaGenerator(int length, int range) {
-        final String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    public static String symbolGenerator(int length, int range) {
+        final String alphabet = "0123456789abcdefghijklmnopqrstuvwxyz";
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder();
         while (sb.length() < length) {
@@ -99,19 +76,6 @@ public class Main {
             }
         }
         return sb.toString();
-    }
-
-    public static String digitGenerator(int length) {
-        SecureRandom random = new SecureRandom();
-        StringBuilder sbDigit = new StringBuilder();
-        while (sbDigit.length() < length) {
-            long digit = random.nextLong(10);
-            if (sbDigit.indexOf(String.valueOf(digit)) == -1) {
-                sbDigit.append(digit);
-            }
-        }
-        System.out.println(sbDigit.toString());
-        return sbDigit.toString();
     }
 
     protected static void checkCode(String secretCode, String userCode) {
@@ -180,35 +144,8 @@ public class Main {
         countCows = 0;
     }
 
-    public static boolean isLengthValid(String length) {
-        return length.matches("\\d{1,10}");
-    }
+//    public static boolean isLengthValid(String length) {
+//        return length.matches("\\d{1,10}");
+//    }
 }
-    //    public static String digitGenerator(int length){
-//        int min = (int) Math.pow(10, length -1); // 10ee digit -1
-//        int max = (int) Math.pow(10, length) -1;
-//        System.out.println(min);
-//        System.out.println(max);
-//        int generated;
-//        do {
-//            int randomNumber = (int) (Math.random() * 9) + 1;
-//            Random random = new Random(randomNumber);
-//            generated = random.nextInt(max - min + 1) + min;
-//            System.out.println(generated);
-//        } while (!areDigitsUnique(generated));
-//        return String.valueOf(generated);
-//    }
-//
-//    public static boolean areDigitsUnique(int number) {
-//        boolean[] digits = new boolean[10];
-//        while (number > 0) {
-//            int digit = number % 10;
-//            if (digits[digit]){
-//                return false;
-//            }
-//            digits[digit] = true;
-//            number /= 10;
-//        }
-//        return true;
-//    }
-//}
+
